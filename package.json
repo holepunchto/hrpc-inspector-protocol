@@ -1,49 +1,49 @@
 {
   "name": "hrpc-inspector-protocol",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "L0 wire contract for the hrpc inspector: the frozen envelope, four selectable encodings, version negotiation, the identity-drop guard, and the peer/ULID registries.",
   "type": "module",
   "main": "./dist/index.js",
-  "types": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
+      "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./envelope": {
-      "types": "./src/envelope.ts",
+      "types": "./dist/envelope.d.ts",
       "default": "./dist/envelope.js"
     },
     "./encode": {
-      "types": "./src/encode.ts",
+      "types": "./dist/encode.d.ts",
       "default": "./dist/encode.js"
     },
     "./decode": {
-      "types": "./src/decode.ts",
+      "types": "./dist/decode.d.ts",
       "default": "./dist/decode.js"
     },
     "./version": {
-      "types": "./src/version.ts",
+      "types": "./dist/version.d.ts",
       "default": "./dist/version.js"
     },
     "./identity": {
-      "types": "./src/identity.ts",
+      "types": "./dist/identity.d.ts",
       "default": "./dist/identity.js"
     },
     "./registry": {
-      "types": "./src/registry.ts",
+      "types": "./dist/registry.d.ts",
       "default": "./dist/registry.js"
     },
     "./cbor": {
-      "types": "./src/cbor.ts",
+      "types": "./dist/cbor.d.ts",
       "default": "./dist/cbor.js"
     },
     "./ulid": {
-      "types": "./src/ulid.ts",
+      "types": "./dist/ulid.d.ts",
       "default": "./dist/ulid.js"
     },
     "./utf8": {
-      "types": "./src/utf8.ts",
+      "types": "./dist/utf8.d.ts",
       "default": "./dist/utf8.js"
     }
   },
@@ -52,17 +52,20 @@
     "src",
     "LICENSE",
     "NOTICE",
-    "README.md"
+    "README.md",
+    "scripts"
   ],
   "scripts": {
-    "build": "rm -rf dist && esbuild src/index.ts src/envelope.ts src/encode.ts src/decode.ts src/version.ts src/identity.ts src/registry.ts src/cbor.ts src/ulid.ts src/utf8.ts --bundle --splitting --format=esm --platform=neutral --outdir=dist",
+    "build": "rm -rf dist && esbuild src/index.ts src/envelope.ts src/encode.ts src/decode.ts src/version.ts src/identity.ts src/registry.ts src/cbor.ts src/ulid.ts src/utf8.ts --bundle --splitting --format=esm --platform=neutral --outdir=dist && npm run build:types",
     "prepare": "npm run build",
-    "test": "bash test/run-all.sh"
+    "test": "bash test/run-all.sh",
+    "build:types": "tsc -p tsconfig.build.json && node scripts/rewrite-dts-specifiers.mjs dist"
   },
   "repository": "git+https://github.com/holepunchto/hrpc-inspector-protocol.git",
   "license": "Apache-2.0",
   "sideEffects": false,
   "devDependencies": {
-    "esbuild": "^0.28.2"
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
   }
 }
